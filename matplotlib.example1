@@ -1,0 +1,67 @@
+import sqlite3
+from tkinter import *
+con = sqlite3.connect(r"C:\Users\ELCOT\PycharmProjects\trining\mywepsite\hd.db")
+root=Tk()
+root.title('valla')
+root.geometry('600x400')
+def submit():
+    n=Name.get()
+    a=Mark1.get()
+    b=Mark2.get()
+    c=Mark3.get()
+    total=a+b+c
+    cur=con.cursor()
+    sq=f"insert into stud1 (name,m1,m2,m3,total) values ('{n}',{a},{b},{c},{total})"
+    print(sq)
+    cur.execute(sq)
+    con.commit()
+    cur.close()
+
+
+Label(root,text="Name").grid(row=1,column=0)
+Name=StringVar()
+Entry(root,textvariable=Name).grid(row=1,column=1)
+Label(root,text="Mark1").grid(row=2,column=0)
+Mark1=IntVar()
+Entry(root,textvariable=Mark1).grid(row=2,column=1)
+Mark1.set(' ')
+Label(root,text="Mark2").grid(row=3,column=0)
+Mark2=IntVar()
+Entry(root,textvariable=Mark2).grid(row=3,column=1)
+Mark2.set(' ')
+Label(root,text="Mark3").grid(row=4,column=0)
+Mark3=IntVar()
+Entry(root,textvariable=Mark3).grid(row=4,column=1)
+Mark3.set(' ')
+Button(root,text="SUBMIT",command=submit).grid(row=5,column=2)
+
+root.mainloop()
+
+
+#creat sql table
+import sqlite3
+
+con = sqlite3.connect("hd.db")
+print("Database opened successfully")
+
+con.execute(
+    "create table stud1 (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, m1 int,m2 int,m3 int,total int)")
+
+print("Table created successfully")
+
+con.close()
+
+#creat pd.chat
+
+import sqlite3
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+conn = sqlite3.connect(r"C:\Users\ELCOT\PycharmProjects\trining\mywepsite\hd.db")
+sql='select * from stud1'
+query = pd.read_sql_query(sql, conn)
+df = pd.DataFrame(query)
+print(df)
+df.plot(x = 'name', y = 'total',kind ='bar')
+plt.show()
+
